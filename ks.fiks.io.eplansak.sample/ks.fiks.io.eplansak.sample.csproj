@@ -11,6 +11,17 @@
   <ItemGroup>
     <None Remove="appsettings.development.json" />
     <None Remove="appsettings.json" />
+    <None Remove="files\06_36_2012_føresegner.pdf" />
+    <None Remove="files\06_36_2012_plankart.pdf" />
+    <None Remove="files\Breisås Sør_Planbeskrivelse.pdf" />
+    <None Remove="files\K-sak 112-12.pdf" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="files\06_36_2012_føresegner.pdf" />
+    <Content Include="files\06_36_2012_plankart.pdf" />
+    <Content Include="files\Breisås Sør_Planbeskrivelse.pdf" />
+    <Content Include="files\K-sak 112-12.pdf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="KS.Fiks.IO.Client" Version="1.1.3" />
+    <PackageReference Include="KS.Fiks.IO.Client" Version="1.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
@@ -31,6 +42,12 @@
 
   <ItemGroup>
     <None Update="privkey.pem">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="samplePlanvedtak.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="samplePlanleggingIgangsatt.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="sampleOpprettePlan.json">

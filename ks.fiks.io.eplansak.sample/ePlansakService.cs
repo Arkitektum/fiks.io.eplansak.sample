@@ -17,16 +17,20 @@ namespace ks.fiks.io.eplansak.sample
     public class ePlansakService : IHostedService, IDisposable
     {
         FiksIOClient client;
+        IConfiguration config;
+
+        public ePlansakService()
+        {
+            config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.development.json", true, true)
+                .Build();
+        }
+
         public Task StartAsync(CancellationToken cancellationToken)
         {
 
             Console.WriteLine("ePlansak Service is starting.");
-            IConfiguration config = new ConfigurationBuilder()
-
-            .AddJsonFile("appsettings.json", true, true)
-            .AddJsonFile("appsettings.development.json", true, true)
-            .Build();
-
             Console.WriteLine("Setter opp FIKS integrasjon for ePlansak...");
             Guid accountId = Guid.Parse(config["accountId"]);  /* Fiks IO accountId as Guid Banke kommune digitalt planregister konto*/
             string privateKey = File.ReadAllText("privkey.pem"); ; /* Private key for offentlig nøkkel supplied to Fiks IO account */
@@ -77,37 +81,60 @@ namespace ks.fiks.io.eplansak.sample
             var messageRequestOpprettePlan = new MeldingRequest(
                                        mottakerKontoId: receiverId,
                                        avsenderKontoId: senderId,
-                                       meldingType: "no.ks.geointegrasjon.plan.oppretteplanidentinput.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
+                                       meldingType: "no.geointegrasjon.plan.oppdatering.oppretteplanidentinput.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
                                                                                                             //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
 
 
             string payload = File.ReadAllText("sampleOpprettePlan.json");
-            // Sending a string
-            Console.WriteLine("Sender melding...");
+         
 
             var msg = client.Send(messageRequestOpprettePlan, payload, "meldingOmNyPlan.json").Result;
             Console.WriteLine("Melding " + msg.MeldingId.ToString() + " sendt..." + msg.MeldingType);
             Console.WriteLine(payload);
 
+            //Pause til neste
+            Console.WriteLine("Trykke en tast for neste melding");
+            Console.ReadKey();
+            SendPlanleggingIgangsatt();
+
+            //Pause til neste
+            Console.WriteLine("Trykke en tast for neste melding");
+            Console.ReadKey();
+            SendPlanvedtak();
+
+
             return Task.CompletedTask;
         }
 
+       
 
-            static void OnReceivedMelding(object sender, MottattMeldingArgs fileArgs)
+        static void OnReceivedMelding(object sender, MottattMeldingArgs fileArgs)
         {
             //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
 
             // Process the message
 
-            if (fileArgs.Melding.MeldingType == "no.ks.geointegrasjon.plan.planidentopprettet.v1")
+            if (fileArgs.Melding.MeldingType == "no.geointegrasjon.plan.oppdatering.planidentopprettet.v1")
             {
                 Console.WriteLine("Melding " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType + " mottas...");
 
                 //TODO håndtere meldingen med ønsket funksjonalitet
 
-                Console.WriteLine("ePlansak oppdaterer sak med tiltdelt arealplanident");
+                Console.WriteLine("ePlansak oppdaterer sak med tiltdelt arealplanident......");
 
                 fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
+
+            }
+            else if (fileArgs.Melding.MeldingType == "no.ks.geointegrasjon.ok.v1")
+            {
+                Console.WriteLine("Melding " + fileArgs.Melding.MeldingId + " " + fileArgs.Melding.MeldingType + " mottas...");
+
+                //TODO håndtere meldingen med ønsket funksjonalitet
+
+                Console.WriteLine("Melding er håndtert i planregister ok ......");
+
+                fileArgs.SvarSender.Ack(); // Ack message to remove it from the queue
+
             }
             else
             {
@@ -115,6 +142,53 @@ namespace ks.fiks.io.eplansak.sample
 
             }
         }
+        private void SendPlanleggingIgangsatt()
+        {
+            Guid receiverId = Guid.Parse(config["sendToAccountId"]); // Receiver id as Guid
+            Guid senderId = Guid.Parse(config["accountId"]); // Sender id as Guid
+
+            var messageRequest = new MeldingRequest(
+                                      mottakerKontoId: receiverId,
+                                      avsenderKontoId: senderId,
+                                      meldingType: "no.geointegrasjon.plan.oppdatering.planleggingigangsatt.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
+                                                                                                           //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+
+
+            string payload = File.ReadAllText("samplePlanleggingIgangsatt.json");
+            
+
+            var msg = client.Send(messageRequest, payload, "PlanleggingIgangsatt.json").Result;
+            Console.WriteLine("Melding " + msg.MeldingId.ToString() + " sendt..." + msg.MeldingType);
+            Console.WriteLine(payload);
+
+        }
+
+        private void SendPlanvedtak()
+        {
+            Guid receiverId = Guid.Parse(config["sendToAccountId"]); // Receiver id as Guid
+            Guid senderId = Guid.Parse(config["accountId"]); // Sender id as Guid
+
+            var messageRequest = new MeldingRequest(
+                                      mottakerKontoId: receiverId,
+                                      avsenderKontoId: senderId,
+                                      meldingType: "no.geointegrasjon.plan.oppdatering.planvedtak.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
+                                                                                                                  //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+
+
+            string payload = File.ReadAllText("samplePlanvedtak.json");
+            
+            List<IPayload> payloads = new List<IPayload>();
+            payloads.Add(new StringPayload(payload, "Planvedtak.json"));
+            payloads.Add(new KS.Fiks.IO.Client.Models.FilePayload(@"C:\dev\ks\ks.fiks.io.eplansak.sample\ks.fiks.io.eplansak.sample\files\06_36_2012_føresegner.pdf"));
+            payloads.Add(new KS.Fiks.IO.Client.Models.FilePayload(@"C:\dev\ks\ks.fiks.io.eplansak.sample\ks.fiks.io.eplansak.sample\files\06_36_2012_plankart.pdf"));
+            payloads.Add(new KS.Fiks.IO.Client.Models.FilePayload(@"C:\dev\ks\ks.fiks.io.eplansak.sample\ks.fiks.io.eplansak.sample\files\K-sak 112-12.pdf"));
+
+            var msg = client.Send(messageRequest, payloads).Result;
+            Console.WriteLine("Melding " + msg.MeldingId.ToString() + " sendt..." + msg.MeldingType + "...med 3 vedlegg");
+            Console.WriteLine(payload);
+
+        }
+
         public Task StopAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine("ePlansak Service is stopping.2");
