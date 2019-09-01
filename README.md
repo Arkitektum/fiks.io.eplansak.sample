@@ -17,7 +17,7 @@ For ePlansak systemer så må meldingsprotokoll no.geointegrasjon.plan.oppdateri
 For digitalt planregister systemer så må meldingsprotokoll no.geointegrasjon.plan.oppdatering støttes som mottaker
 
 ### Meldinger som sendes fra ePlansak til digitalt planregister
-- Ved aktivitet Holde oppstartsmøte(2.2): [no.geointegrasjon.plan.oppdatering.oppretteplan.v1](schema/no.geointegrasjon.plan.oppdatering.oppretteplan.v1.schema.json)
+- Ved aktivitet Holde oppstartsmøte(2.2): [no.geointegrasjon.plan.oppdatering.oppretteplan.v1](ks.fiks.io.eplansak.sample/schema/no.geointegrasjon.plan.oppdatering.oppretteplan.v1.schema.json)
 - Ved aktivitet Registrere planavgrensning(2.2.13): no.geointegrasjon.plan.oppdatering.planavgrensning.v1
 - Ved aktivitet Varsel om planoppstart(2.3): no.geointegrasjon.plan.oppdatering.planleggingigangsatt.v1
 - Ved aktivitet Motta planforslag(3.3): no.geointegrasjon.plan.oppdatering.planforslagkomplett.v1
