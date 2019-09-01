@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://no.geointegrasjon.plan.oppdatering/RegistrerePlandispensasjon.v1.schema.json",
+  "title": "RegistrerePlandispensasjon",
+  "type": "object",
+  "properties": {
+    "arealplanID": {
+      "type": "object",
+      "properties": {
+        "administrativEnhet": {
+          "type": "object",
+          "properties": {
+            "kommunenummer": {
+              "description": "Kommunenummer",
+              "type": "object"
+            },
+            "fylkesnummer": {
+              "description": "Fylkesnummer",
+              "type": "object"
+            },
+            "landskode": {
+              "description": "Landskode",
+              "type": "object"
+            }
+          },
+          "required": [
+            "kommunenummer",
+            "fylkesnummer",
+            "landskode"
+          ]
+        },
+        "planidentifikasjon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "administrativEnhet",
+        "planidentifikasjon"
+      ]
+    },
+    "dispensasjon": {
+      "type": "object",
+      "properties": {
+        "kodeverdi": {
+          "type": "string"
+        },
+        "kodebeskrivelse": {
+          "type": "string"
+        }
+      }
+    },
+    "dispFra": {
+      "type": "string"
+    },
+    "vedtaksdato": {
+      "type": "string",
+      "format": "date"
+    },
+    "posisjon": {
+      "description": "Punkt",
+      "type": "object"
+    },
+    "vertikalnivå": {
+      "type": "object",
+      "properties": {
+        "kodeverdi": {
+          "type": "string"
+        },
+        "kodebeskrivelse": {
+          "type": "string"
+        }
+      }
+    },
+    "navn": {
+      "type": "string"
+    },
+    "saksnummer": {
+      "type": "object",
+      "properties": {
+        "saksår": {
+          "type": "integer"
+        },
+        "sakssekvensnummer": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "saksår",
+        "sakssekvensnummer"
+      ]
+    }
+  },
+  "required": [
+    "arealplanID",
+    "dispensasjon",
+    "vedtaksdato"
+  ]
+}

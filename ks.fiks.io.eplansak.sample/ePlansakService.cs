@@ -81,7 +81,7 @@ namespace ks.fiks.io.eplansak.sample
             var messageRequestOpprettePlan = new MeldingRequest(
                                        mottakerKontoId: receiverId,
                                        avsenderKontoId: senderId,
-                                       meldingType: "no.geointegrasjon.plan.oppdatering.oppretteplanidentinput.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
+                                       meldingType: "no.geointegrasjon.plan.oppdatering.oppretteplan.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
                                                                                                             //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
 
 
