@@ -44,6 +44,15 @@
     <None Update="privkey.pem">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="sampleOffentligEttersyn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="samplePlanavgrensning.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="samplePlanforslagKomplett.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="samplePlanvedtak.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

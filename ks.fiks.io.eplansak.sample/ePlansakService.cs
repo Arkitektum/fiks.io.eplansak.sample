@@ -172,8 +172,9 @@ namespace ks.fiks.io.eplansak.sample
                                       mottakerKontoId: receiverId,
                                       avsenderKontoId: senderId,
                                       meldingType: "no.geointegrasjon.plan.oppdatering.planvedtak.v1"); // Message type as string https://fiks.ks.no/plan.oppretteplanidentinput.v1.schema.json
-                                                                                                                  //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+                                                                                                        //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
 
+            client.Lookup(new LookupRequest("","", 3));
 
             string payload = File.ReadAllText("samplePlanvedtak.json");
             
