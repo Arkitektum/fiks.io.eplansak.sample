@@ -3,7 +3,7 @@
 ## Oppsett av prosjekt
 - Oppdater prosjektet med en egen appsettings.development.json som har med integrasjons passord i FIKS
 - Oppdater med egen selvsignert krypteringsnøkkel (privkey.pem) som har lastet offentlig nøkkel opp i FIKS
-- Bruk eget virksomhetssertifikat mot ID porten (ThumbprintIdPortenVirksomhetssertifikat)
+- Bruk eget virksomhetssertifikat mot Maskinporten (ThumbprintIdPortenVirksomhetssertifikat)
 
 ## Bakgrunn
 Dette er et forarbeid til arbeidsoppgaver i fornying av geointegrasjon for å vise muligheter og eksempler på FIKS IO integrasjon.
