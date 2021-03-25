@@ -33,7 +33,7 @@ namespace ks.fiks.io.eplansak.sample
             Console.WriteLine("ePlansak Service is starting.");
             Console.WriteLine("Setter opp FIKS integrasjon for ePlansak...");
             Guid accountId = Guid.Parse(config["accountId"]);  /* Fiks IO accountId as Guid Banke kommune digitalt planregister konto*/
-            string privateKey = File.ReadAllText("privkey.pem"); ; /* Private key for offentlig nøkkel supplied to Fiks IO account */
+            string privateKey =  File.ReadAllText("privkey.pem"); ; /* Private key for offentlig nøkkel supplied to Fiks IO account */
             Guid integrationId = Guid.Parse(config["integrationId"]); /* Integration id as Guid ePlansak system X */
             string integrationPassword = config["integrationPassword"];  /* Integration password */
             Guid sendToaccountId = Guid.Parse(config["sendToAccountId"]);
